@@ -1,0 +1,26 @@
+.div_avatar{
+	height: 210px;
+	width: 210px;
+	display: inline-block;
+}
+.div_avatar .img_avatar{
+	border: 1px solid #ccc;
+	height: 200px;
+	width: 200px;
+}
+#create_au{
+	margin:0 20px 20px;
+}
+.searh{
+	width: 70%;
+}
+.div_searh{
+	display: inline-flex;
+	width: 35%;
+/*	float: left;*/
+}
+.btn_searh{
+	float: left;
+	display: inline;
+	margin-left: 20px;
+}
