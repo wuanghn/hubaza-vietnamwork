@@ -23,3 +23,9 @@ Route::post('update_author','BlogController@update');
 Route::get('article','ArticleController@index');
 
 
+
+
+// ROUTE BY WA 31/3/2015
+Route::controller('users', 'UsersController');
+
+
