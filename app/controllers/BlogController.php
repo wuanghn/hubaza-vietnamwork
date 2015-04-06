@@ -9,8 +9,19 @@
 		*/
 		public function index()
 		{
-			$au = Author::all();
-			return View::make('author',array('au' =>$au));
+			//lấy ra hearder cho blog->chi có 1 record
+			$author = DB::table('header_blog_home as hea')
+			->join('articles as ar', 'hea.id_article','=', 'ar.id')
+			->leftjoin('authors as au','au.id', '=', 'ar.id_author')
+			->get();
+
+			//lấy ra những auhthor mới nhất
+			$expert = DB::table('authors')->orderBy('id','desc')->limit(4)->get();
+
+			//lấy ra 4 bài viết mới nhất
+			$last_article = DB::table('articles')->orderBy('id', 'desc')->limit(4)->get();
+
+			return View::make('blog_home',array('last_article' =>$last_article, 'author' =>$author, 'expert' =>$expert));
 		}
 
 
@@ -19,35 +30,6 @@
 		*
 		* @return Response
 		*/
-		public function create()
-		{
-
-		}
-
-
-		/**
-		* Store a newly created resource in storage.
-		*
-		* @return Response
-		*/
-		public function store()
-		{
-			$input = $this->get_input();
-
-			//upload file
-			if (Input::hasFile('avatar'))
-			{
-				$avatar = $this->upload();
-				if($avatar != false){
-					$input['avatar'] = $avatar;
-					Author::create($input);
-					return  Redirect::to('author');
-				}
-				else{
-					return  Redirect::to('author')->with('error','upload file không thành công');
-				}
-			}
-		}
 
 
 		/**
@@ -80,26 +62,9 @@
 		* @param  int  $id
 		* @return Response
 		*/
-		public function update()
+		public function update($id)
 		{
-			$input = $this->get_input();
-			//upload file
-			if (Input::hasFile('avatar'))
-			{
-				$avatar = $this->upload();
-				if($avatar != false){
-					$input['avatar'] = $avatar;
-					Author::where('id',Input::get('id'))->update($input);
-					return  Redirect::to('author');
-				}
-				else{
-					return  Redirect::to('author')->with('error','upload file không thành công');
-				}
-			}
-			else{//khong có chọn hình
-				Author::where('id',Input::get('id'))->update($input);
-				return  Redirect::to('author');
-			}
+			//
 		}
 
 
@@ -109,34 +74,23 @@
 		* @param  int  $id
 		* @return Response
 		*/
-		public function destroy()
+		public function destroy($id)
 		{
-			Author::where('id',Input::get('id'))->delete();
-			return Redirect::to('author');
+			//
 		}
-
 
 		public function get_input()
 		{
+			$input= Input::all();
 			$arr = array();
-			$input = Input::all();
+
 			$arr = array(
-				'name' =>$input['name'],
-				'discription' =>$input['discription'],
+				'id_user' => 1,
+				'id_article' => 1,
+				'comment' => $input['content_cmt'] ,
+				'like' =>0 ,
 			);
+
 			return $arr;
 		}
-
-		function upload(){
-			$file = Input::file('avatar');
-			$type_file = $file->getClientOriginalExtension();
-			$file_name = 'Au'.substr(number_format(time() * mt_rand(),0,'',''),0,8);
-			$upload_success = $file->move('uploads', $file_name.'.'.$type_file);
-			if($upload_success){
-				$avatar = 'uploads/'.$file_name.'.'.$type_file;
-				return  $avatar;
-			}else
-				return false;
-		}
-
 	}
