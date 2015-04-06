@@ -44,3 +44,9 @@ Route::get('blog','BlogController@index');
 
 
 
+
+
+// ROUTE BY WA 31/3/2015
+Route::controller('users', 'UsersController');
+
+
