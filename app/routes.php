@@ -11,6 +11,7 @@
 |
 */
 
+<<<<<<< HEAD
 // Route::get('/', function()
 // {
 // 	return View::make('hello');
@@ -19,8 +20,39 @@ Route::get('author','BlogController@index');
 Route::post('store_author','BlogController@store');
 Route::get('delete_author','BlogController@destroy');
 Route::post('update_author','BlogController@update');
+=======
+Route::get('/', function()
+{
+	return View::make('hello');
+});
+Route::get('sys_author','AuthorController@index');
+Route::post('sys_store_author','AuthorController@store');
+Route::get('sys_delete_author','AuthorController@destroy');
+Route::post('sys_update_author','AuthorController@update');
+Route::get('sys_search_author','AuthorController@search');
 
-Route::get('article','ArticleController@index');
+Route::get('sys_article','ArticleController@index');
+
+Route::get('sys_auto_complete_author','ArticleController@auto_complete_author');
+Route::get('sys_auto_complete_acticle','ArticleController@auto_complete_acticle');
+
+Route::post('sys_store_article','ArticleController@store');
+Route::get('sys_delete_article','ArticleController@destroy');
+Route::post('sys_update_article','ArticleController@update');
+
+Route::get('sys_banner','BannerController@index');
+Route::get('sys_header_blog','BannerController@header_blog');
+Route::post('sys_store_header_blog','BannerController@store_header_blog');
+Route::post('upload_banner','BannerController@upload_banner');
+Route::post('store_banner','BannerController@store');
+
+Route::get('blog','BlogController@index');
+
+
+
+
+>>>>>>> c6162b6f21021a338e8bafe3d758d72c31977161
+
 
 
 

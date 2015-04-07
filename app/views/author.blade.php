@@ -9,7 +9,7 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 
-		<title>SB Admin - Bootstrap Admin Template</title>
+		<title>Admin Author</title>
 
 		<!-- Bootstrap Core CSS -->
 		<link href="public/assets/css/bootstrap.min.css" rel="stylesheet">
@@ -18,6 +18,8 @@
 		<link href="public/assets/css/sb-admin.css" rel="stylesheet">
 
 		<link href="public/assets/css/blog.css" rel="stylesheet">
+		<script src="public/assets/js/jquery.js"></script>
+		<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 		<!-- Custom Fonts -->
 		<link href="public/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -45,7 +47,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index.html">SB Admin</a>
+					<span class="navbar-brand">Admin Blog</span>
 				</div>
 				<!-- Top Menu Items -->
 				<ul class="nav navbar-right top-nav">
@@ -154,40 +156,11 @@
 				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav side-nav">
-						<li>
-							<a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
-						</li>
-						<li>
-							<a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
-						</li>
-						<li>
-							<a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
-						</li>
-						<li>
-							<a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
-						</li>
-						<li>
-							<a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
-						</li>
-						<li>
-							<a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
-						</li>
-						<li>
-							<a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
-							<ul id="demo" class="collapse">
-								<li>
-									<a href="#">Dropdown Item</a>
-								</li>
-								<li>
-									<a href="#">Dropdown Item</a>
-								</li>
-							</ul>
-						</li>
 						<li class="active">
-							<a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
+							<a href="{{asset('sys_author')}}"><i class="fa fa-fw fa-dashboard"></i> Tác giả</a>
 						</li>
 						<li>
-							<a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
+							<a href="{{asset('sys_article')}}"><i class="fa fa-fw fa-bar-chart-o"></i> Bài viết</a>
 						</li>
 					</ul>
 				</div>
@@ -197,7 +170,6 @@
 			<div id="page-wrapper">
 
 				<div class="container-fluid">
-
 					<!-- Page Heading -->
 					<div class="row">
 						<div class="col-lg-12">
@@ -212,12 +184,17 @@
 							<i class="fa fa-file"></i> Blank Page
 							</li>
 							</ol> -->
+
 							<div class="div_searh">
-								<input class="form-control searh" type="text" id="in_searh_au">
-								<button class="btn btn-primary btn_searh" id="seard_au">Tìm kiếm</button>
+								<form action="{{asset('sys_search_author')}}" class="form_search">
+									<div class="form-group">
+										<input class="form-control searh" type="text" id="in_searh_au" name="key">
+										<button class="btn btn-primary btn_searh" id="seard_au">Tìm kiếm</button>
+									</div>
+								</form>
 							</div>
 							<a class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal" id="create_au">
-								Thêm tác giả
+								<i class="fa fa-plus"></i>  Thêm tác giả
 							</a>
 						</div>
 					</div>
@@ -239,12 +216,17 @@
 									<td class="td_id hidden">{{$val->id}}</td>
 									<td class="td_discription hidden">{{$val->discription}}</td>
 									<td class="td_avatar hidden">{{$val->avatar}}</td>
+									<td class="td_sectors hidden">{{$val->sectors}}</td>
+									<td class="td_position hidden">{{$val->position}}</td>
 									<td><a href="#" data-toggle="modal" data-target="#myModal_update" class="a_update">Sửa</a> |
-										<a style="color: red;" href="{{asset('delete_author?id=').$val->id}}" onclick="return confirm('Bạn thực sự muốn xóa?')" >Xóa</a>
+										<a style="color: red;" href="{{asset('sys_delete_author?id=').$val->id}}" onclick="return confirm('Bạn thực sự muốn xóa?')" >Xóa</a>
 									</td>
 								</tr>
 								@endforeach
 							</table>
+							<div class="pagination pull-right">
+								{{$au->links()}}
+							</div>
 						</div>
 					</div>
 					<!-- /.row -->
@@ -266,12 +248,20 @@
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						<h4 class="modal-title" id="myModalLabel">Tạo mới tác giả</h4>
 					</div>
-					<form action="{{asset('store_author')}}" method="POST" enctype="multipart/form-data">
+					<form action="{{asset('sys_store_author')}}" method="POST" enctype="multipart/form-data">
 						<div class="modal-body" style="padding: 0 30px 0 30px;">
 							<div>
 								<div class="form-group" style="margin: 10px 0 0 0;">
 									<label>Tên tác giả</label>
 									<input name="name" type="text" class="form-control">
+								</div>
+								<div class="form-group">
+									<label>Chức vụ</label>
+									<input name="position" type="text" class="form-control">
+								</div>
+								<div class="form-group">
+									<label>Lĩnh vực</label>
+									<input name="sectors" type="text" class="form-control">
 								</div>
 								<div class="form-group">
 									<label>Mô tả</label>
@@ -305,13 +295,21 @@
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						<h4 class="modal-title" id="myModalLabel">Sửa tác giả</h4>
 					</div>
-					<form action="{{asset('update_author')}}" method="POST" enctype="multipart/form-data">
+					<form action="{{asset('sys_update_author')}}" method="POST" enctype="multipart/form-data">
 						<div class="modal-body" style="padding: 0 30px 0 30px;">
 							<div>
 								<div class="form-group" style="margin: 10px 0 0 0;">
 									<label>Tên tác giả</label>
 									<input name="name" type="text" class="form-control" id="name_up">
 									<input name="id" type="hidden" id="id_up">
+								</div>
+								<div class="form-group">
+									<label>Chức vụ</label>
+									<input name="position" type="text" class="form-control" id="position_up">
+								</div>
+								<div class="form-group">
+									<label>Lĩnh vực</label>
+									<input name="sectors" type="text" class="form-control" id="sectors_up">
 								</div>
 								<div class="form-group">
 									<label>Mô tả</label>
@@ -339,7 +337,6 @@
 		<!-- /#wrapper -->
 
 		<!-- jQuery -->
-		<script src="public/assets/js/jquery.js"></script>
 
 		<!-- Bootstrap Core JavaScript -->
 		<script src="public/assets/js/bootstrap.min.js"></script>
