@@ -11,10 +11,10 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
+// Route::get('/', function()
+// {
+// 	return View::make('hello');
+// });
 Route::get('author','BlogController@index');
 Route::post('store_author','BlogController@store');
 Route::get('delete_author','BlogController@destroy');
@@ -26,6 +26,16 @@ Route::get('article','ArticleController@index');
 
 
 // ROUTE BY WA 31/3/2015
+Route::get('wa-test',function()
+{
+		dd(display_messages());
+});
+
+
 Route::controller('users', 'UsersController');
+Route::controller('/','SearchesController');
+
+
+
 
 

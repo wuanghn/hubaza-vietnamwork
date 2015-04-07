@@ -102,4 +102,11 @@ class UsersController extends \BaseController {
 			echo "</pre>";
 	}
 
+
+
+	public function postProRegis()
+	{
+			// proccess register
+	}
+
 }
